@@ -5,7 +5,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:matcher/matcher.dart';
 
-
 enum Auth {
   signin,
   signup,
@@ -24,8 +23,8 @@ class _AuthScreenState extends State<AuthScreen> {
   final _signInFormKey = GlobalKey<FormState>();
 
   final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController  = TextEditingController();
-  final TextEditingController _nameController  = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
 
   @override
   void dispose() {
@@ -33,6 +32,7 @@ class _AuthScreenState extends State<AuthScreen> {
     _nameController.dispose();
     _passwordController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +42,7 @@ class _AuthScreenState extends State<AuthScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(children: [
             const Text(
-              'Welcome',  
+              'Welcome',
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,
@@ -57,22 +57,39 @@ class _AuthScreenState extends State<AuthScreen> {
                 activeColor: GlobalVariable.secondaryColor,
                 value: Auth.signup,
                 groupValue: _auth,
-                onChanged: (Auth? val){
+                onChanged: (Auth? val) {
                   setState(() {
                     _auth = val!;
                   });
                 },
               ),
             ),
-            if(_auth == Auth.signup) 
-            Form(
-              key:_signUpFormKey ,
-              child: Column(
-                children: [
-                  CustomTextFied(controller: _emailController)
-                ],
+            if (_auth == Auth.signup)
+              Container(
+                padding: const EdgeInsets.all(8),
+                color: GlobalVariable.backgroundColor,
+                child: Form(
+                  key: _signUpFormKey,
+                  child: Column(
+                    children: [
+                      CustomTextFied(
+                        controller: _emailController,
+                        hintText: 'Email',
+                      ),
+                      const SizedBox(height: 10,),
+                      CustomTextFied(
+                        controller: _nameController,
+                        hintText: 'Name',
+                      ),
+                      const SizedBox(height: 10,),
+                      CustomTextFied(
+                        controller: _passwordController,
+                        hintText: 'Password',
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
             ListTile(
               title: const Text(
                 'Sign-in',
@@ -82,7 +99,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 activeColor: GlobalVariable.secondaryColor,
                 value: Auth.signin,
                 groupValue: _auth,
-                onChanged: (Auth? val){
+                onChanged: (Auth? val) {
                   setState(() {
                     _auth = val!;
                   });
