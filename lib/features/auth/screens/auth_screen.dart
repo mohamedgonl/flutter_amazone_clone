@@ -1,5 +1,7 @@
+import 'package:amazone_clone/common/widgets/custom_button.dart';
 import 'package:amazone_clone/common/widgets/custom_textfied.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
+import 'package:amazone_clone/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -22,8 +24,11 @@ class _AuthScreenState extends State<AuthScreen> {
   final _signUpFormKey = GlobalKey<FormState>();
   final _signInFormKey = GlobalKey<FormState>();
 
+  final AuthService authService = AuthService();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordController1 = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
   @override
@@ -33,6 +38,12 @@ class _AuthScreenState extends State<AuthScreen> {
     _passwordController.dispose();
   }
 
+
+  void signUpUser () {
+    authService.signUpUser(context: context, email: _emailController.text, password: _passwordController.text, name: _nameController.text);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +51,9 @@ class _AuthScreenState extends State<AuthScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Column(children: [
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             const Text(
               'Welcome',
               style: TextStyle(
@@ -73,24 +86,32 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: Column(
                     children: [
                       CustomTextFied(
-                        controller: _emailController,
-                        hintText: 'Email',
+                        controller: _nameController,
+                        hintText: 'Name',
                       ),
                       const SizedBox(height: 10,),
                       CustomTextFied(
-                        controller: _nameController,
-                        hintText: 'Name',
+                        controller: _emailController,
+                        hintText: 'Email',
                       ),
                       const SizedBox(height: 10,),
                       CustomTextFied(
                         controller: _passwordController,
                         hintText: 'Password',
                       ),
+                      const SizedBox(height: 10,),
+                      CustomButton(text: 'Sign up', onTap: (){
+                          if(_signUpFormKey.currentState!.validate()) {
+                            print(_signUpFormKey.currentState);
+                            signUpUser();
+                          }
+                      })
                     ],
                   ),
                 ),
               ),
             ListTile(
+              tileColor: _auth == Auth.signup ? GlobalVariable.backgroundColor : GlobalVariable.greyBackgroundCOlor,
               title: const Text(
                 'Sign-in',
                 style: TextStyle(fontWeight: FontWeight.bold),
@@ -106,6 +127,30 @@ class _AuthScreenState extends State<AuthScreen> {
                 },
               ),
             ),
+            if(_auth == Auth.signin)
+               Container(
+                
+                padding: const EdgeInsets.all(8),
+                color: GlobalVariable.backgroundColor,
+                child: Form(
+                  key: _signUpFormKey,
+                  child: Column(
+                    children: [
+                      CustomTextFied(
+                        controller: _emailController,
+                        hintText: 'Email',
+                      ),
+                      const SizedBox(height: 10,),
+                      CustomTextFied(
+                        controller: _passwordController1,
+                        hintText: 'Password',
+                      ),
+                      const SizedBox(height: 10,),
+                      CustomButton(text: 'Sign in', onTap: (){})
+                    ],
+                  ),
+                ),
+              ),
           ]),
         ),
       ),
