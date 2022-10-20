@@ -1,5 +1,8 @@
+
+
 import 'dart:convert';
 
+import 'package:amazone_clone/common/widgets/bottom_bar.dart';
 import 'package:amazone_clone/constants/error_handle.dart';
 import 'package:amazone_clone/constants/global_variables.dart';
 import 'package:amazone_clone/constants/utils.dart';
@@ -54,7 +57,6 @@ class AuthService {
     required String password,
   }) async {
     try {
-      print('In ra man hinh');
       http.Response res = await http.post(
         Uri.parse('$uri/api/signin'),
         body: jsonEncode({
@@ -65,7 +67,6 @@ class AuthService {
           'Content-Type': 'application/json; charset=UTF-8',
         },
       );
-      print(res.body);
 
       httpErrorHandle(
         response: res,
@@ -76,11 +77,43 @@ class AuthService {
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
           Navigator.pushNamedAndRemoveUntil(
             context,
-            HomeScreen.routeName,
+            BottomBar.routeName,
             (route) => false,
           );
         },
       );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  // get user data
+  void getUserData(BuildContext context) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      if (token == null) {
+        prefs.setString('x-athu-token', '');
+      }
+      var tokenRes = await http.post(Uri.parse('$uri/tokenIsValid'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+            'x-auth-token': token!
+          });
+
+      var response = jsonDecode(tokenRes.body);
+
+      if (response) {
+        http.Response userRes = await http.get(Uri.parse('$uri/'),
+            headers: <String, String>{
+              'Content-Type': 'application/json; charset=UTF-8',
+              'x-auth-token': token
+            });
+      
+
+      var userProvider = Provider.of<UserProvider>(context, listen: false);
+      userProvider.setUser(userRes.body);
+  }
     } catch (e) {
       showSnackBar(context, e.toString());
     }
