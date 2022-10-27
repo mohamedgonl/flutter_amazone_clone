@@ -20,7 +20,9 @@ class _BottomBarState extends State<BottomBar> {
   List<Widget> pages = [
     const HomeScreen(),
     const AccountScreen(),
-    const Center(child: Text('Cart Page'),),
+    const Center(
+      child: Text('Cart Page'),
+    ),
   ];
 
   void updatePage(int page) {
@@ -55,7 +57,7 @@ class _BottomBarState extends State<BottomBar> {
               ),
               child: const Icon(Icons.home_outlined),
             ),
-            label: '', 
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -71,7 +73,7 @@ class _BottomBarState extends State<BottomBar> {
               ),
               child: const Icon(Icons.person_outline),
             ),
-            label: '', 
+            label: '',
           ),
           BottomNavigationBarItem(
             icon: Container(
@@ -85,12 +87,14 @@ class _BottomBarState extends State<BottomBar> {
                       width: bottomBarBorderWidth),
                 ),
               ),
-              child: Badge(child: const Icon(Icons.shopping_cart_outlined),
-              elevation: 0,
-              badgeContent: Text('2'),
-              badgeColor: Colors.white,),
+              child: Badge(
+                child: const Icon(Icons.shopping_cart_outlined),
+                elevation: 0,
+                badgeContent: Text('2'),
+                badgeColor: Colors.white,
+              ),
             ),
-            label: '', 
+            label: '',
           )
         ],
       ),
