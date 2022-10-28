@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     authService.getUserData(context);
+    // print('Data is : ${Provider.of<UserProvider>(context).user.type}');
   }
 
   @override
@@ -50,10 +51,10 @@ class _MyAppState extends State<MyApp> {
       ),
       onGenerateRoute: ((settings) => generateRoute(settings)),
       home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-          ? Provider.of<UserProvider>(context).user.type == 'user'
-              ? const BottomBar()
-              : const AdminScreen()
-          : const AuthScreen(),
+          ? (Provider.of<UserProvider>(context).user.type == "user"
+              ? const  BottomBar()
+              : const AdminScreen()) 
+          : (const AuthScreen()),
     );
   }
 }

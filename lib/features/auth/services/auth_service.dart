@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:amazone_clone/common/widgets/bottom_bar.dart';
@@ -73,8 +71,8 @@ class AuthService {
         buildContext: context,
         onSuccess: () async {
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
           Provider.of<UserProvider>(context, listen: false).setUser(res.body);
+          await prefs.setString('x-auth-token', jsonDecode(res.body)['token']);
           Navigator.pushNamedAndRemoveUntil(
             context,
             BottomBar.routeName,
@@ -109,11 +107,11 @@ class AuthService {
               'Content-Type': 'application/json; charset=UTF-8',
               'x-auth-token': token
             });
-      
 
-      var userProvider = Provider.of<UserProvider>(context, listen: false);
-      userProvider.setUser(userRes.body);
-  }
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        print('-------------------------------- ${userRes.body}');
+        userProvider.setUser(userRes.body);
+      }
     } catch (e) {
       showSnackBar(context, e.toString());
     }

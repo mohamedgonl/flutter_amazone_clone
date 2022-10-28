@@ -75,7 +75,8 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: '',
           ),
-          BottomNavigationBarItem(
+          // Analytics
+         BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
               decoration: BoxDecoration(
@@ -87,15 +88,10 @@ class _BottomBarState extends State<BottomBar> {
                       width: bottomBarBorderWidth),
                 ),
               ),
-              child: Badge(
-                child: const Icon(Icons.shopping_cart_outlined),
-                elevation: 0,
-                badgeContent: Text('2'),
-                badgeColor: Colors.white,
-              ),
+              child: const Icon(Icons.all_inbox_outlined),
             ),
             label: '',
-          )
+          ),
         ],
       ),
     );
